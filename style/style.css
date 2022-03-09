@@ -8,3 +8,22 @@ div {
     display: flex;
     justify-content: center;
 }
+
+button {
+    background-color: blueviolet;
+    border: 0;
+    border-radius: 2px;
+    min-width: 100px;
+    min-height: 50px;
+    cursor: pointer;
+    color: azure;
+}
+
+button:hover {
+    background-color: rgb(0, 160, 160);
+    color: rgb(7, 3, 32);
+}
+
+p {
+    margin-inline-start: 40px;
+}
