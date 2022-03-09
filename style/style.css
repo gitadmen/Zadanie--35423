@@ -27,3 +27,12 @@ button:hover {
 p {
     margin-inline-start: 40px;
 }
+
+#preloader {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 15%;
+    display: none;
+    border-radius: 30px;
+}

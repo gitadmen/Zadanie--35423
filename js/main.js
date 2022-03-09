@@ -3,24 +3,63 @@ let btn = document.getElementById('get-data')
 let httpReq = new XMLHttpRequest();
 let dataNet;
 
-function getData() {
+let preloading = false;
 
 
-    console.log('getData has start')
+const showPreloader = () => {
 
-    httpReq.open('GET', 'https://akademia108.pl/api/ajax/get-users.php')
+    let preLloader = document.getElementById('preloader')
+    preLloader.style.display = 'block';
+    preloading = true;
+}
+const hidePreloader = () => {
 
-    httpReq.onreadystatechange = () => {
+    let preLloader = document.getElementById('preloader')
+    preLloader.style.display = 'none';
+    preloading = false
+}
 
 
-        dataNet = httpReq.responseText;
-        console.log(data)
-        console.log('Łączenie')
+const getData = () => {
 
+    if (!preloading) {
 
+        showPreloader();
 
+        console.log('getData has start')
+        fetch('https://akademia108.pl/api/ajax/get-users.php')
+            .then(res => res.json())
+            .then(data => {
+
+                let body = document.body;
+                let hr = document.createElement('hr');
+                body.appendChild(hr);
+
+                for (let user of data) {
+
+                    let pId = document.createElement('p');
+                    let pName = document.createElement('p');
+                    let pWebsite = document.createElement('p');
+
+                    pId.innerText = `User ID: ${user.id}`;
+                    pName.innerText = `User Name: ${user.name}`;
+                    pWebsite.innerHTML = `User URL: ${user.pWebsite}<br />`;
+
+                    body.appendChild(pId);
+                    body.appendChild(pName);
+                    body.appendChild(pWebsite);
+                }
+                console.log(data)
+                hidePreloader();
+
+            })
+
+        .catch(error => {
+            console.error(error)
+        })
 
     }
+
 }
 
 
@@ -30,7 +69,8 @@ function scrollToEndOfPage() {
     let scrTop = document.documentElement.scrollTop;
     let clientHeight = document.documentElement.clientHeight;
 
-    if ((clientHeight + scrTop + 5) > scrHeight) {
+    if (Math.ceil(clientHeight + scrTop) >= scrHeight) {
+
         getData();
     }
 }
